@@ -33,6 +33,27 @@ void insert(int ID, char* NAME, char* DEPARTMENT, double SALARY)
    CURRENT_RECORD->NEXT = RECORD;
 }
 
+void delete(int ID)
+{
+   struct db* CURRENT_RECORD = TABLE;
+   if(CURRENT_RECORD->ID == ID)
+   {
+      TABLE = TABLE->NEXT;
+      free(CURRENT_RECORD);
+      return;
+   }
+   struct db* PREVIOUS_RECORD;
+   PREVIOUS_RECORD = CURRENT_RECORD;
+   CURRENT_RECORD = CURRENT_RECORD->NEXT;
+   while(CURRENT_RECORD->ID != ID)
+   {
+      PREVIOUS_RECORD = CURRENT_RECORD;
+      CURRENT_RECORD = CURRENT_RECORD->NEXT;
+   }
+   PREVIOUS_RECORD->NEXT = CURRENT_RECORD->NEXT;
+   free(CURRENT_RECORD);
+}
+
 void select_all()
 {
    struct db* CURRENT_RECORD = TABLE;
@@ -48,6 +69,9 @@ int main(void)
    struct db* c = TABLE;
    insert(1, "Jedsada Aimjit", "Data Engineer", 100000);
    insert(2, "Somchai Prayuth", "Police", 12000);
+   insert(3, "Pom Pom", "Programmer", 30000);
+   select_all();
+   delete(3);
    select_all();
 
    return 0;
