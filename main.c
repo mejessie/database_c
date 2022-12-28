@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-struct test
+struct db
 {
    int ID;
    char* NAME;
@@ -9,9 +9,10 @@ struct test
    struct db* NEXT;
 }
 
+struct db* TABLE;
+
 int main(void)
 {
-   int a = 10;
 
    return 0;
 }
