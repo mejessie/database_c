@@ -1,9 +1,8 @@
 #include <stdio.h>
 
-struct db
+struct test
 {
    int ID;
-   char* NAME;
    char* DEPARTMENT;
    char* SALARY;
    struct db* NEXT;
