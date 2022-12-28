@@ -12,8 +12,22 @@ struct db
 
 struct db* TABLE = NULL;
 
+void select_all()
+{
+   printf("\n");
+   struct db* CURRENT_RECORD = TABLE;
+   int i = 1;
+   while(CURRENT_RECORD != NULL)
+   {
+      printf("RECORD[%d] ->   %d - %s - %s - %lf\n", i, CURRENT_RECORD->ID, CURRENT_RECORD->NAME, CURRENT_RECORD->DEPARTMENT, CURRENT_RECORD->SALARY);
+      CURRENT_RECORD = CURRENT_RECORD->NEXT;
+      ++i;
+   }
+}
+
 void insert(int ID, char* NAME, char* DEPARTMENT, double SALARY)
 {
+   printf("\n");
    struct db* RECORD = (struct db*)malloc(sizeof(struct db));
    RECORD->ID = ID;
    RECORD->NAME = NAME;
@@ -23,14 +37,26 @@ void insert(int ID, char* NAME, char* DEPARTMENT, double SALARY)
    if(TABLE == NULL)
    {
       TABLE = RECORD;
+      printf("You just inserted (%d, %s, %s, %lf) .\n", RECORD->ID, RECORD->NAME, RECORD->DEPARTMENT, RECORD->SALARY);
+      return;
+   }
+   if(TABLE->ID == ID)
+   {
+      printf("Duplicate ID !!!\n");
       return;
    }
    struct db* CURRENT_RECORD = TABLE;
-   while(CURRENT_RECORD->NEXT != NULL)
+   while(CURRENT_RECORD->NEXT != NULL && CURRENT_RECORD->ID != ID)
    {
       CURRENT_RECORD = CURRENT_RECORD->NEXT;
    }
+   if(CURRENT_RECORD->ID == ID)
+   {
+      printf("Duplicate ID !!!\n");
+      return;
+   }
    CURRENT_RECORD->NEXT = RECORD;
+   printf("You just inserted (%d, %s, %s, %lf) .\n", RECORD->ID, RECORD->NAME, RECORD->DEPARTMENT, RECORD->SALARY);
 }
 
 void update_id(int ID, char* NAME, char* DEPARTMENT, double SALARY)
@@ -75,29 +101,13 @@ void delete(int ID)
    free(CURRENT_RECORD);
 }
 
-void select_all()
-{
-   printf("\n");
-   struct db* CURRENT_RECORD = TABLE;
-   while(CURRENT_RECORD != NULL)
-   {
-      printf("RECORD -> %d %s %s %lf\n", CURRENT_RECORD->ID, CURRENT_RECORD->NAME, CURRENT_RECORD->DEPARTMENT, CURRENT_RECORD->SALARY);
-      CURRENT_RECORD = CURRENT_RECORD->NEXT;
-   }
-}
-
 int main(void)
 {
-   struct db* c = TABLE;
-   insert(1, "Jedsada Aimjit", "Data Engineer", 100000);
-   insert(2, "Somchai Prayuth", "Police", 12000);
-   insert(3, "Pom Pom", "Programmer", 30000);
-   insert(4, "Koon Kong", "Security Guard", 12000);
-   insert(5, "LOL LMAO", "Human Resource", 30000);
-   select_all();
-   delete(3);
-   select_all();
-   update_id(2, NULL, NULL, 20000);
+   insert(1, "test1", "test1", 1000);
+   insert(2, "test2", "test2", 2000);
+   insert(3, "test3", "test3", 3000);
+   insert(3, "test4", "test4", 4000);
+   insert(3, "test5", "test5", 5000);
    select_all();
 
    return 0;
