@@ -3,6 +3,7 @@
 struct test
 {
    int ID;
+   char* NAME;
    char* DEPARTMENT;
    char* SALARY;
    struct db* NEXT;
@@ -10,7 +11,7 @@ struct test
 
 int main(void)
 {
-   printf("Hello");
+   int a = 10;
 
    return 0;
 }
