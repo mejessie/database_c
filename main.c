@@ -27,7 +27,6 @@ void select_all()
 
 void insert(int ID, char* NAME, char* DEPARTMENT, double SALARY)
 {
-   printf("\n");
    struct db* RECORD = (struct db*)malloc(sizeof(struct db));
    RECORD->ID = ID;
    RECORD->NAME = NAME;
@@ -37,12 +36,11 @@ void insert(int ID, char* NAME, char* DEPARTMENT, double SALARY)
    if(TABLE == NULL)
    {
       TABLE = RECORD;
-      printf("You just inserted (%d, %s, %s, %lf) .\n", RECORD->ID, RECORD->NAME, RECORD->DEPARTMENT, RECORD->SALARY);
       return;
    }
    if(TABLE->ID == ID)
    {
-      printf("Duplicate ID !!!\n");
+      printf("\nDuplicate ID[%d] !!!\n", TABLE->ID);
       return;
    }
    struct db* CURRENT_RECORD = TABLE;
@@ -52,11 +50,10 @@ void insert(int ID, char* NAME, char* DEPARTMENT, double SALARY)
    }
    if(CURRENT_RECORD->ID == ID)
    {
-      printf("Duplicate ID !!!\n");
+      printf("\nDuplicate ID[%d] !!!\n", CURRENT_RECORD->ID);
       return;
    }
    CURRENT_RECORD->NEXT = RECORD;
-   printf("You just inserted (%d, %s, %s, %lf) .\n", RECORD->ID, RECORD->NAME, RECORD->DEPARTMENT, RECORD->SALARY);
 }
 
 void update_id(int ID, char* NAME, char* DEPARTMENT, double SALARY)
@@ -65,6 +62,11 @@ void update_id(int ID, char* NAME, char* DEPARTMENT, double SALARY)
    while(CURRENT_RECORD->ID != ID)
    {
       CURRENT_RECORD = CURRENT_RECORD->NEXT;
+      if(CURRENT_RECORD == NULL)
+      {
+         printf("\nID[%d] isn't found !!!\n", ID);
+         return;
+      }
    }
    if(NAME != NULL)
    {
@@ -96,6 +98,11 @@ void delete(int ID)
    {
       PREVIOUS_RECORD = CURRENT_RECORD;
       CURRENT_RECORD = CURRENT_RECORD->NEXT;
+      if(CURRENT_RECORD == NULL)
+      {
+         printf("\nID[%d] isn't found !!!\n", ID);
+         return;
+      }
    }
    PREVIOUS_RECORD->NEXT = CURRENT_RECORD->NEXT;
    free(CURRENT_RECORD);
@@ -106,8 +113,13 @@ int main(void)
    insert(1, "test1", "test1", 1000);
    insert(2, "test2", "test2", 2000);
    insert(3, "test3", "test3", 3000);
-   insert(3, "test4", "test4", 4000);
-   insert(3, "test5", "test5", 5000);
+   insert(4, "test4", "test4", 4000);
+   insert(5, "test5", "test5", 5000);
+   insert(6, "a", "b", 1);
+   select_all();
+   update_id(5, "a", "t", -1);
+   select_all();
+   delete(6);
    select_all();
 
    return 0;
