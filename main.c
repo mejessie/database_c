@@ -1,3 +1,4 @@
+// This code has been written by Jedsada Aimjit.
 #include <stdio.h>
 #include <stdlib.h>
 
